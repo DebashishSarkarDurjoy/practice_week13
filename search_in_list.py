@@ -1,5 +1,5 @@
 class ListNode:
-    def __init__(self, data, next=None):
+    def __init__(self, data=None, next=None):
         self.data = data
         self.next = next
 
@@ -24,14 +24,33 @@ def show_list(L: ListNode):
 def delete_node(L: ListNode):
     L.next = L.next.next
 
+def merge_list(L1: ListNode, L2: ListNode) -> ListNode:
+    dummy_head = tail = ListNode()
+
+    while L1 and L2:
+        if L1.data < L2.data:
+            tail.next, L1 = L1, L1.next
+        else:
+            tail.next, L2 = L2, L2.next
+        tail = tail.next
+
+    tail.next = L1 or L2
+    return dummy_head
+
 if __name__ == "__main__":
-    head = ListNode(0)
+    head1 = ListNode()
+    head2 = ListNode()
 
-    for i in range(1,10):
-        insert_node(head, i)
+    insert_node(head1, 2)
+    insert_node(head1, 5)
+    insert_node(head1, 7)
 
+    insert_node(head2, 3)
+    insert_node(head2, 11)
+
+    show_list(head1.next)
+    show_list(head2.next)
+
+    head = merge_list(head1.next, head2.next)
     show_list(head)
 
-    delete_node(search_list(head, 5))
-
-    show_list(head)
