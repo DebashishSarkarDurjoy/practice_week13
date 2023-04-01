@@ -37,20 +37,25 @@ def merge_list(L1: ListNode, L2: ListNode) -> ListNode:
     tail.next = L1 or L2
     return dummy_head
 
+def reverse_sublist(L: ListNode, start: int, end: int):
+    subHead = L
+    for _ in range(1, start):
+        subHead = subHead.next
+    
+    itr = subHead.next 
+    for _ in range(end-start):
+        temp = itr.next
+        itr.next, temp.next, subHead.next = (temp.next, subHead.next, temp)
+    
+
 if __name__ == "__main__":
-    head1 = ListNode()
-    head2 = ListNode()
+    head = ListNode()
+    for i in range(10):
+        insert_node(head, i)
+    show_list(head)
 
-    insert_node(head1, 2)
-    insert_node(head1, 5)
-    insert_node(head1, 7)
+    # head = merge_list(head1.next, head2.next)
 
-    insert_node(head2, 3)
-    insert_node(head2, 11)
-
-    show_list(head1.next)
-    show_list(head2.next)
-
-    head = merge_list(head1.next, head2.next)
+    reverse_sublist(head, 2, 5)
     show_list(head)
 
