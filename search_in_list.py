@@ -46,16 +46,43 @@ def reverse_sublist(L: ListNode, start: int, end: int):
     for _ in range(end-start):
         temp = itr.next
         itr.next, temp.next, subHead.next = (temp.next, subHead.next, temp)
+
+def is_list_cyclic(Head: ListNode) -> ListNode:
+    def cycle_len(end):
+        step, start = 0, end
+        while True:
+            step += 1
+            start = start.next 
+            if start is end:
+                return step
     
+    fast = slow = Head
+    while fast and fast.next and fast.next.next:
+        slow, fast = slow.next, fast.next.next
+        if slow is fast:
+            cycle_len_itr = Head
+            for _ in range(cycle_len(fast)):
+                cycle_len_itr = cycle_len_itr.next
+            it = Head
+            while it is not cycle_len_itr:
+                it = it.next
+                cycle_len_itr = cycle_len_itr.next
+            return it
+
+
 
 if __name__ == "__main__":
     head = ListNode()
-    for i in range(10):
+    for i in range(11):
         insert_node(head, i)
     show_list(head)
-
+    node10 = search_list(head, 10)
+    node10.next = search_list(head, 7)
+    cycle_start = is_list_cyclic(head)
+    print(f'\n{cycle_start.data}')
     # head = merge_list(head1.next, head2.next)
 
-    reverse_sublist(head, 2, 5)
-    show_list(head)
+    # reverse_sublist(head, 2, 5)
+
+    # show_list(head)
 
