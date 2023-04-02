@@ -69,17 +69,42 @@ def is_list_cyclic(Head: ListNode) -> ListNode:
                 cycle_len_itr = cycle_len_itr.next
             return it
 
-
+def overlapping_no_cycle(l0: ListNode, l1: ListNode) -> ListNode:
+    def l_len(node):
+        length = 0
+        while node is not None:
+            length += 1
+            node = node.next
+        return length
+    
+    l0_len, l1_len = l_len(l0), l_len(l1)
+    if l0_len > l1_len:
+        l1, l0 = l0, l1
+    for _ in range(abs(l1_len - l0_len)):
+        l1 = l1.next
+    while l1 and l0 and l1 is not l0:
+        l1, l0 = l1.next, l0.next
+    return l1
 
 if __name__ == "__main__":
-    head = ListNode()
+    head1 = ListNode()
+    head2 = ListNode()
     for i in range(11):
-        insert_node(head, i)
-    show_list(head)
-    node10 = search_list(head, 10)
-    node10.next = search_list(head, 7)
-    cycle_start = is_list_cyclic(head)
-    print(f'\n{cycle_start.data}')
+        insert_node(head1, i)
+    show_list(head1)
+
+    for i in range(5):
+        insert_node(head2, i)
+    show_list(head2)
+
+    node_connector = search_list(head2, 4)
+    node_connector.next = search_list(head1, 7)
+    show_list(head2)
+
+    over_lapping_node = overlapping_no_cycle(head1, head2)
+    print()
+    print(f'{over_lapping_node.data}')
+    
     # head = merge_list(head1.next, head2.next)
 
     # reverse_sublist(head, 2, 5)
